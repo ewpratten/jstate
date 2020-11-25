@@ -9,24 +9,25 @@ The goal of JState is to provide a very simple way to quickly implement Finite S
 Using this library with your program is quite simple. Here is a basic example for Gradle:
 
 
-**Step 1.** Declare my maven server the end of your repositories block in *build.gradle*
+**Step 1.** Add the RetryLife maven server to your `build.gradle` file:
 
 ```groovy
 repositories {
-    ...
-    maven { url 'https://ultralight.retrylife.ca:/maven' }
+    maven { url 'https://maven.retrylife.ca' }
 }
 ```
 
-**Step 2.** Add this artifact as a dependency
+**Step 1.** Add this library as a dependency:
 
 ```groovy
 dependencies {
-    implementation 'ca.retrylife:jstate:<LATEST_VERSION>'
+    implementation 'ca.retrylife:jstate:v1.+'
+    implementation 'ca.retrylife:jstate-sources:v1.+'
+    implementation 'ca.retrylife:jstate-javadoc:v1.+'
 }
 ```
 
-See [ultralight.retrylife.ca](https://ultralight.retrylife.ca/?a=jstate&g=ca.retrylife) for up-to-date examples in all major buildsystems.
+See [maven.retrylife.ca](https://maven.retrylife.ca/#ca.retrylife/jstate) for up-to-date examples in all major buildsystems.
 
 ## Usage
 

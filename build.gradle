@@ -9,6 +9,9 @@
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java-library'
+    id "java"
+
+    id "ca.retrylife.gradle.sensibledefaults" version "1.0.4"
 }
 
 repositories {
@@ -34,14 +37,8 @@ dependencies {
     
 }
 
-task javadoc2(type: Javadoc){
-    source = sourceSets.main.allJava
-    classpath = sourceSets.main.runtimeClasspath 
-    options.addBooleanOption('-no-module-directories', true)
-}
-
-jar{
-    dependsOn javadoc2
-    from sourceSets.main.allSource
-    from javadoc2.destinationDir
+sensible {
+    javadoc {
+        enabled true
+    }
 }
