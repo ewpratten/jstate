@@ -4,10 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * The Scheduler is the base class for running tasks
  */
 public class Scheduler<State, Context> implements AutoCloseable, Runnable {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     // List of child tasks
     private Map<State, Task<State, Context>> children = new HashMap<State, Task<State, Context>>();
@@ -41,6 +45,7 @@ public class Scheduler<State, Context> implements AutoCloseable, Runnable {
      * @param task Task
      */
     public void addChild(State key, Task<State, Context> task) {
+        logger.debug(String.format("Adding task: %s", key.toString()));
         this.children.put(key, task);
     }
 
@@ -50,6 +55,7 @@ public class Scheduler<State, Context> implements AutoCloseable, Runnable {
      * @param key Task key
      */
     public void removeChild(State key) {
+        logger.debug(String.format("Removing child: %s", key.toString()));
         if (key == null) {
             // Set an empty idle task
             this.overrideIdleTask(() -> {
@@ -93,10 +99,12 @@ public class Scheduler<State, Context> implements AutoCloseable, Runnable {
      * @param task Idle task
      */
     public void overrideIdleTask(Task<State, Context> task) {
+        logger.debug("Overriding the idle task");
         this.children.put(null, task);
     }
 
     public void forceSwitchTask(State newState) {
+        logger.debug(String.format("Force-switching task to: %s", newState.toString()));
 
         // Close the current task
         this.getCurrentTask().close();
@@ -124,7 +132,8 @@ public class Scheduler<State, Context> implements AutoCloseable, Runnable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
+        logger.debug("Closing");
 
         // Switch to the idle state
         this.forceSwitchTask(null);
