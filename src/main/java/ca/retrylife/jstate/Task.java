@@ -28,6 +28,8 @@ public interface Task<State, Context> extends AutoCloseable {
      *                     last task was defined (this happens if there is no
      *                     default task for a scheduler to run)
      * @param context      The context of the scheduler
+     * 
+     * @return The next task to be run
      */
     public State execute(State currentState, State lastState, Context context);
 
